@@ -29,7 +29,7 @@ fun main() {
  * Defines the UI and responds to events
  * The app model should be passwd as an argument
  */
-class MainWindow : JFrame(), ActionListener {
+class MainWindow : JFrame(), ActionListener, KeyListener {
 
     // Fields to hold the UI elements
     private lateinit var greetingLabel: JLabel
@@ -45,8 +45,10 @@ class MainWindow : JFrame(), ActionListener {
         addControls()                   // Build the UI
 
         setLocationRelativeTo(null)     // Centre the window
-        isVisible = true                // Make it visible
+        isVisible = true // Make it visible
+        textField.addKeyListener(this)
     }
+
 
     /**
      * Configure the main window
@@ -69,6 +71,7 @@ class MainWindow : JFrame(), ActionListener {
         greetingLabel.horizontalAlignment = SwingConstants.CENTER
         greetingLabel.bounds = Rectangle(50, 50, 500, 50)
         greetingLabel.font = Font("Arial", Font.PLAIN, 24)
+
         add(greetingLabel)
 
         helloButton = JButton("hello!")
@@ -100,25 +103,56 @@ class MainWindow : JFrame(), ActionListener {
 
         when (e?.source) {
             helloButton -> {
+                println("hello button pressed")
                 if (userName.isNotEmpty()) {
+
+
+
                     greetingLabel.text = "Hello, $userName!"
+
                     greetingLabel.foreground = Color.GREEN
                 } else {
                     greetingLabel.text = "Hello, stranger!"
+
                     greetingLabel.foreground = Color.GREEN
                 }
             }
+            greetingLabel -> {
+                println("greetingLabel pressed")
+
+            }
             goodbyeButton -> {
+                println("goodbye button pressed")
                 if (userName.isNotEmpty()) {
                     greetingLabel.text = "Goodbye, $userName!"
+
                     greetingLabel.foreground = Color.RED
                 } else {
                     greetingLabel.text = "Goodbye, stranger!"
+
                     greetingLabel.foreground = Color.RED
                 }
             }
         }
     }
+
+    override fun keyTyped(e: KeyEvent?) {
+        //println("Key Typed: ${e?.keyChar}")
+        if (e?.keyChar in 'a'..'z' || e?.keyChar in 'A'..'Z') {
+            println("$e?.keyChar")
+        }
+    }
+
+    override fun keyPressed(e: KeyEvent?) { 
+       // println("Key Pressed: ${e?.keyCode}")
+    }
+
+    override fun keyReleased(e: KeyEvent?) {
+        //dprintln("Key Released: ${e?.keyCode}")
+    }
+
+
+
 
 }
 
